@@ -1,0 +1,3 @@
+1. As a list oriented person, I want to keep track of tasks, so that I can stay organized and calm.
+2. As a manager, I want to organize jobs, so that I can keep track of them.
+3. As a shopper, I want to make a shopping list, so that I can get everything I need from the store.
