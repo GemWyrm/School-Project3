@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 
 function App() {
@@ -90,10 +90,100 @@ class TodoList extends React.Component {
   }
 }
 
-function Contact() {
-  return <p>Contact Page content</p>;
-}
 
+var initialState = {
+  firstName: "",
+  email: "",
+  lastName: "",
+  comments: "",
+  msg: "",
+  errors: [],
+  hasLoaded: false
+};
+
+function Contact() {
+  var [state, setState] = useState(initialState);
+
+  console.log("render");
+
+  useEffect(() => {
+    // effect runs after every render
+
+    return () => {
+      // cleanup that happens before effect is run the next time
+      // useful for removing subscriptions, or event listeners.
+    };
+  });
+
+  function handleFormChange(e) {
+    var newValue = e.target.value;
+    var name = e.target.name;
+
+    setState({
+      ...state,
+      [name]: newValue
+    });
+  }
+
+  var errs = state.errors.map(item => {
+    return <div className="error">{item.msg}</div>;
+  });
+
+  return (
+    <>
+      {state.msg && <div className="error">{state.msg}</div>}
+      {errs}
+      <fieldset>
+        <label>Your First Name</label>
+        <br />
+        <input
+          value={state.firstName}
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleFormChange}
+        />
+      </fieldset>
+      <fieldset>
+        <label>Your Last Name</label>
+        <br />
+        <input
+          name="lastName"
+          value={state.lastName}
+          onChange={handleFormChange}
+          placeholder="Last Name"
+          style={{ width: 250 }}
+        />
+      </fieldset>
+      <fieldset>
+        <label>Your Email</label>
+        <br />
+        <input
+          value={state.email}
+          onChange={handleFormChange}
+          name="email"
+          placeholder="you@email.com"
+        />
+      </fieldset>
+      <fieldset>
+        <label>Your Comments</label>
+        <br />
+        <textarea
+          name="comments"
+          value={state.comments}
+          onChange={handleFormChange}
+          placeholder="Enter your comments here"
+          rows="10"
+          cols="60"
+        />
+      </fieldset>
+      <button className="button" 
+      // onClick={handleFormSubmit}
+      >
+        Submit
+      </button>
+    </>
+  );
+}
 // function App() {
 //   return (
 //     <div className="App">
