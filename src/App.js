@@ -1,4 +1,5 @@
 // import logo from './logo.svg';
+import trashcan from './trashcan.png';
 import './App.css';
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
@@ -54,6 +55,9 @@ class Todos extends React.Component {
           </button>
         </form>
         <TodoList items={this.state.items} />
+        <button>All</button>
+        <button>Completed</button>
+        <button>Incomplete</button>
       </main>
     );
   }
@@ -78,12 +82,16 @@ class Todos extends React.Component {
   }
 }
 
+function deleteItem(){
+
+}
+
 class TodoList extends React.Component {
   render() {
     return (
       <ul>
         {this.props.items.map(item => (
-          <li key={item.id}>{item.text}</li>
+          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={deleteItem(this.props.index)}><img src={trashcan} alt="&#128465;"/></button></li>
         ))}
       </ul>
     );
