@@ -98,6 +98,43 @@ class TodoList extends React.Component {
   }
 }
 
+//Trying to sort TodoList
+function App2() {
+  const [data, setData] = useState([]);
+  const [sortType, setSortType] = useState();
+
+  useEffect(() => {
+    const sortArray = type => {
+      const types = {
+        all: '',
+        checked: 'checked',
+        unchecked: 'unchecked',
+      };
+      const sortProperty = types[type];
+      const sorted = [...this.state.index].sort((a, b) => b[sortProperty] - a[sortProperty]);
+      setData(sorted);
+    };
+
+    sortArray(sortType);
+  }, [sortType]);
+  return (
+    <div className="App">
+      <select onChange={(e) => setSortType(e.target.value)}> 
+        <option value="All">All</option>
+        <option value="Checked">Checked</option>
+        <option value="Unchecked">Unchecked</option>
+      </select>
+
+      {data.map(band => (
+        <div key={this.state.items.id} style={{ margin: '30px' }}>
+          <div>{`All: ${this.state.items}`}</div>
+          <div>{`Checked: ${this.state.items.checked}`}</div>
+          <div>{`Unchecked: ${this.state.items.unchecked}`}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 var initialState = {
   firstName: "",
