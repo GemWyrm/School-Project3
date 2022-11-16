@@ -19,9 +19,9 @@ function App() {
 
 function Nav() {
   return (
-    <>
-      <Link to="/">About</Link> | <Link to="/todos">Todos</Link> | <Link to="/contact">Contact</Link>
-    </>
+    <nav>
+      <Link to="/">About</Link> | <Link to="/todos">Checklist</Link> | <Link to="/contact">Contact</Link>
+    </nav>
   );
 }
 
@@ -39,25 +39,22 @@ class Todos extends React.Component {
 
   render() {
     return (
-      <main>
-        <h3>TODO</h3>
+      <main id='todo'>
+        <h3>Checklist</h3>
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="new-todo">
-            What needs to be done?
           </label>
           <input
-            id="new-todo"
-            onChange={this.handleChange}
-            value={this.state.text}
+            id="new-todo" onChange={this.handleChange} value={this.state.text} placeholder='What needs to be done?'
           />
-          <button>
+          <button type='#'>
             Add Item
           </button>
         </form>
         <TodoList items={this.state.items} />
-        <button>All</button>
-        <button>Completed</button>
-        <button>Incomplete</button>
+        <button type='#'>All</button>
+        <button type='#'>Completed</button>
+        <button type='#'>Incomplete</button>
       </main>
     );
   }
