@@ -76,19 +76,23 @@ class Todos extends React.Component {
       items: state.items.concat(newItem),
       text: ''
     }));
+  };
+  //Delete doesn't work...
+  deleteItem(index){
+    var itemsCopy = this.state.items.slice()
+    itemsCopy.splice(index,1);
+    this.setState({items:itemsCopy});
   }
 }
 
-function deleteItem(){
 
-}
 
 class TodoList extends React.Component {
   render() {
     return (
       <ul>
         {this.props.items.map(item => (
-          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={deleteItem(this.props.index)}><img src={trashcan} alt="&#128465;"/></button></li>
+          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={item.deleteItem}><img src={trashcan} alt="&#128465;"/></button></li>
         ))}
       </ul>
     );

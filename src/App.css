@@ -49,5 +49,5 @@ ul {
   list-style-type: none; padding-left: 0;
 }
 li>button {
-  float: right; border: none; background: none; color: inherit; padding: 0; outline: none;
+  float: right; border: none; background: none; color: inherit; padding: 0; outline: none; cursor: pointer;
 }
