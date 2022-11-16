@@ -2,7 +2,7 @@
 import trashcan from './trashcan.png';
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link,/* useLocation, useParams*/ } from 'react-router-dom';
 
 function App() {
   return (
@@ -52,11 +52,19 @@ class Todos extends React.Component {
           </button>
         </form>
         <TodoList items={this.state.items} />
-        <button type='#'>All</button>
-        <button type='#'>Completed</button>
-        <button type='#'>Incomplete</button>
+        {/*<Sort/>*/}
+        <button type='button' className={this.state.activeName === inactive ? 'active' : ''} onClick={this.handleActiveButton}>All</button>
+        <button type='button'>Completed</button>
+        <button type='button'>Incomplete</button>
       </main>
     );
+  }
+//Active className not working...
+  handleActiveButton(e) {
+    e.preventDefault();
+  
+    const activeName = e.target.name;
+    this.setState({ activeName });
   }
 
   handleChange(e) {
@@ -79,13 +87,11 @@ class Todos extends React.Component {
   };
   //Delete doesn't work...
   deleteItem(index){
-    var itemsCopy = this.state.items.slice()
+    var itemsCopy = this.state.newItems.slice()
     itemsCopy.splice(index,1);
-    this.setState({items:itemsCopy});
+    this.setState({newItems:itemsCopy});
   }
 }
-
-
 
 class TodoList extends React.Component {
   render() {
@@ -100,14 +106,14 @@ class TodoList extends React.Component {
 }
 
 //Trying to sort TodoList
-function App2() {
+function Sort() {
   const [data, setData] = useState([]);
   const [sortType, setSortType] = useState();
 
   useEffect(() => {
     const sortArray = type => {
       const types = {
-        all: '',
+        all: 'all',
         checked: 'checked',
         unchecked: 'unchecked',
       };
