@@ -51,9 +51,9 @@ class Todos extends React.Component {
             Add Item
           </button>
         </form>
-        <TodoList items={this.state.items} />
+        <TodoList items={this.state.items} delete={this.deleteItem} />
         {/*<Sort/>*/}
-        <button type='button' className={this.state.activeName === inactive ? 'active' : ''} onClick={this.handleActiveButton}>All</button>
+        {/* <button type='button' className={this.state.activeName === inactive ? 'active' : ''} onClick={this.handleActiveButton}>All</button> */}
         <button type='button'>Completed</button>
         <button type='button'>Incomplete</button>
       </main>
@@ -86,10 +86,11 @@ class Todos extends React.Component {
     }));
   };
   //Delete doesn't work...
-  deleteItem(index){
-    var itemsCopy = this.state.newItems.slice()
-    itemsCopy.splice(index,1);
-    this.setState({newItems:itemsCopy});
+  deleteItem(e,){
+    console.log(e)
+    var itemsCopy = this.state.items.slice()
+    itemsCopy.splice(e,1);
+    this.setState({items:itemsCopy});
   }
 }
 
@@ -98,7 +99,7 @@ class TodoList extends React.Component {
     return (
       <ul>
         {this.props.items.map(item => (
-          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={item.deleteItem}><img src={trashcan} alt="&#128465;"/></button></li>
+          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={this.props.delete}><img src={trashcan} alt="&#128465;"/></button></li>
         ))}
       </ul>
     );
