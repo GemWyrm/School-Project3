@@ -2,7 +2,9 @@
 import trashcan from './trashcan.png';
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, Link,/* useLocation, useParams*/ } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route,/* useLocation, useParams*/ } from 'react-router-dom';
+import Nav from './Components/nav';
+import About from './Pages/about';
 
 function App() {
   return (
@@ -16,19 +18,6 @@ function App() {
     </Router>
   );
 }
-
-function Nav() {
-  return (
-    <nav>
-      <Link to="/">About</Link> | <Link to="/todos">Checklist</Link> | <Link to="/contact">Contact</Link>
-    </nav>
-  );
-}
-
-function About() {
-  return <p>Home Page Content</p>;
-}
-
 class Todos extends React.Component {
   constructor(props) {
     super(props);
