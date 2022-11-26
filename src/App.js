@@ -1,35 +1,24 @@
-// import logo from './logo.svg';
 import trashcan from './trashcan.png';
 import './App.css';
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, Link,/* useLocation, useParams*/ } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Nav from './Components/nav';
+import About from './Pages/about';
 
 function App() {
   return (
     <Router>
       <Nav />
       <Routes>
-        <Route path="/" exact element={<About/>} />
-        <Route path="/todos" element={<Todos/>} />
-        <Route path="/contact" element={<Contact/>} />
+        <Route path="/" exact element={<About />} />
+        <Route path="/todos" element={<TodosPage/>} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>
   );
 }
 
-function Nav() {
-  return (
-    <nav>
-      <Link to="/">About</Link> | <Link to="/todos">Checklist</Link> | <Link to="/contact">Contact</Link>
-    </nav>
-  );
-}
-
-function About() {
-  return <p>Home Page Content</p>;
-}
-
-class Todos extends React.Component {
+class TodosPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [], text: '' };
@@ -37,29 +26,7 @@ class Todos extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  render() {
-    return (
-      <main id='todo'>
-        <h3>Checklist</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="new-todo">
-          </label>
-          <input
-            id="new-todo" onChange={this.handleChange} value={this.state.text} placeholder='What needs to be done?'
-          />
-          <button type='#'>
-            Add Item
-          </button>
-        </form>
-        <TodoList items={this.state.items} delete={this.deleteItem} />
-        {/*<Sort/>*/}
-        {/* <button type='button' className={this.state.activeName === inactive ? 'active' : ''} onClick={this.handleActiveButton}>All</button> */}
-        <button type='button'>Completed</button>
-        <button type='button'>Incomplete</button>
-      </main>
-    );
-  }
-//Active className not working...
+  // Active className not working...
   handleActiveButton(e) {
     e.preventDefault();
   
@@ -85,15 +52,67 @@ class Todos extends React.Component {
       text: ''
     }));
   };
-  //Delete doesn't work...
+
+  /**
+  * 
+  * deletes a todo item by copying items in state and removing the item.
+  * then it sets the state with the modified items array
+  * 
+  * @param {Object} e - Click event object passed by the onDelete handler 
+  * @param {Object} item - Item to be deleted
+  * @param {Number} item.id - Item's id (set by Date.now() which returns a number)
+  * @param {String} item.text - Item's text
+  */
   deleteItem(e,){
-    console.log(e)
-    var itemsCopy = this.state.items.slice()
+    console.log(e);
+    var itemsCopy = this.state.items.slice();
     itemsCopy.splice(e,1);
-    this.setState({items:itemsCopy});
+    this.setState({ items: itemsCopy });
+  }
+
+  render() {
+    return (
+      <main id='todo'>
+        <h3>Checklist</h3>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="new-todo">
+          </label>
+          <input
+            id="new-todo" onChange={this.handleChange} value={this.state.text} placeholder='What needs to be done?'
+          />
+          <button type='#'>
+            Add Item
+          </button>
+        </form>
+        <TodoList items={this.state.items} delete={this.deleteItem} />
+        {/*<Sort/>*/}
+        {/* <button type='button' className={this.state.activeName === inactive ? 'active' : ''} onClick={this.handleActiveButton}>All</button> */}
+        <button type='button'>Completed</button>
+        <button type='button'>Incomplete</button>
+      </main>
+    );
   }
 }
 
+/**
+ * Component showing the Todos List
+ * 
+ * @component
+ * @example
+ * const items = [
+ *   {
+ *     text: "First Todo",
+ *     id: 0
+ *   },
+ *   {
+ *     text: "Second Todo",
+ *     id: 1
+ *   }
+ * ]
+ * return (
+ *  <TodoList items={items} />
+ * )
+ */
 class TodoList extends React.Component {
   render() {
     return (
@@ -106,7 +125,10 @@ class TodoList extends React.Component {
   }
 }
 
-//Trying to sort TodoList
+// This function seems like it's a good candidate for a hook and would go in the /Hooks folder
+// It may be even simpler to make it a function that takes an array of items, sorts it, and return it
+// Then we could make another folder called /Util and put the function there. In that case it wouldn't be
+// a React component, rather a normal JavaScript function
 function Sort() {
   const [data, setData] = useState([]);
   const [sortType, setSortType] = useState();
@@ -144,6 +166,9 @@ function Sort() {
   );
 }
 
+// If you move Contact over to it's own folder, this would have to go with it. 
+// I tend to put object like this right inside the component, but there maybe a benefit to keeping it out like this,
+// I'm not entirely sure.
 var initialState = {
   firstName: "",
   email: "",
@@ -166,7 +191,9 @@ function Contact() {
       // cleanup that happens before effect is run the next time
       // useful for removing subscriptions, or event listeners.
     };
-  });
+  }, []); // <-- you can also add a dependecy array here which just means that the useEffect function will run at first render and also anytime something in the dependency array changes.
+  // If it is an empty array it will only run once, when the component first renders
+  // If you don't have an array here, like it was before I added the empty array, it will run everytime it renders
 
   function handleFormChange(e) {
     var newValue = e.target.value;
