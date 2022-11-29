@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "tinkertrain.theme-panda",
+    "eamodio.gitlens",
+    "dbaeumer.vscode-eslint"
+  ]
+}

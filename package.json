@@ -17,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env RTL_SKIP_AUTO_CLEANUP=true react-scripts test --silent",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier-format": "npx prettier --config .prettierrc --write .",
+    "lint": "eslint . --ext .jsx --ext .js"
   },
   "eslintConfig": {
     "extends": [
@@ -36,5 +38,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "prettier": "2.8.0"
   }
 }

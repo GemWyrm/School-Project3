@@ -1,0 +1,29 @@
+{
+  "editor.fontSize": 14,
+  "editor.guides.bracketPairs": true,
+  "editor.formatOnSave": true,
+  "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "Panda Syntax",
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "scope": "comment",
+        "settings": {
+          "fontStyle": "italic bold"
+        }
+      },
+      {
+        "scope": "variable.parameter",
+        "settings": {
+          "fontStyle": "",
+          "foreground":"#be81ff"
+        }
+      }
+    ]
+  },
+  "workbench.colorCustomizations": {
+    "editorUnnecessaryCode.opacity": "#00000077"
+  }
+}
