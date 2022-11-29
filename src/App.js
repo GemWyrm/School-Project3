@@ -29,25 +29,26 @@ function About() {
   return <p>Home Page Content</p>;
 }
 
-class Todos extends React.Component {
+export class Todos extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [], text: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // Something should happen here to fix the TypeError: Cannot read properties of undefined (reading 'state')
   }
 
   render() {
     return (
       <main id='todo'>
         <h3>Checklist</h3>
-        <form onSubmit={this.handleSubmit}>
+        <form data-testid="todo-form" onSubmit={this.handleSubmit}>
           <label htmlFor="new-todo">
           </label>
           <input
-            id="new-todo" onChange={this.handleChange} value={this.state.text} placeholder='What needs to be done?'
+            id="new-todo" data-testid="todo-input" onChange={this.handleChange} value={this.state.text} placeholder='What needs to be done?'
           />
-          <button type='#'>
+          <button type="#">
             Add Item
           </button>
         </form>
@@ -86,11 +87,28 @@ class Todos extends React.Component {
     }));
   };
   //Delete doesn't work...
-  deleteItem(e,){
-    console.log(e)
-    var itemsCopy = this.state.items.slice()
-    itemsCopy.splice(e,1);
+  deleteItem(e,){ // <-- should not have a comma if there's going to be just one param
+    // good practice for debugging a function that isn't working is to verify that the function runs
+    // and that the parameters are what you expect
+    console.log(...arguments); // <-- note that 'arguments' does not exist inside of an arrow function () => {}
+    // when you run this and try deleting an item, the event will log and an error right after it that says
+    // TypeError: Cannot read properties of undefined (reading 'state')
+    // this means something, probably in this function, is undefined but trying to acces a property 'state'
+    // the thing that is undefined should be an object that has prop state, but for some reason here is undefined.
+    var itemsCopy = this.state.items.slice() // <-- error on this line
+    console.log('before delete', itemsCopy); // <-- view todos before the delete
+    itemsCopy.splice(e,1); // <-- verify that splice like this does what you expect, play with it in the browser console.
+    console.log('after delete', itemsCopy); // <-- view them after the delete
     this.setState({items:itemsCopy});
+    // Once you fix the TypeError: Cannot read properties of undefined (reading 'state')
+    // test this function out with multiple todo items all with different text
+    // delete the first, then the last, then one in the middle.
+    // does this function remove the one you expect?
+
+    // Once you've done your testing, you may find these links of use
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+    // and you may find that you need to be passing an additional param to this function
   }
 }
 
@@ -99,7 +117,7 @@ class TodoList extends React.Component {
     return (
       <ul>
         {this.props.items.map(item => (
-          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={this.props.delete}><img src={trashcan} alt="&#128465;"/></button></li>
+          <li key={item.id}><input type='checkbox'/>{item.text}<button onClick={(e) => this.props.delete(e, item)} aria-label="delete"><img src={trashcan} alt=""/></button></li>
         ))}
       </ul>
     );
